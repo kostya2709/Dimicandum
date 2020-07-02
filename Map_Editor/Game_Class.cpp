@@ -1,5 +1,8 @@
 
-// Copyright © 2020 Dragun Konstantin. All rights reserved.
+/*---------------------------------------------------------------------------------------------------
+    * Copyright © 2020 Dragun Konstantin. All rights reserved.
+    * Licensed under the MIT License. See License.txt in the project root for license information.
+ ----------------------------------------------------------------------------------------------------*/
 
 #include "main_header.hpp"
 #include <cmath>

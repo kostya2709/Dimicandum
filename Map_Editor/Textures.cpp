@@ -1,6 +1,12 @@
 
-#include "main_header.hpp"
 
+/*---------------------------------------------------------------------------------------------------
+    * Copyright © 2020 Dragun Konstantin. All rights reserved.
+    * Licensed under the MIT License. See License.txt in the project root for license information.
+ ----------------------------------------------------------------------------------------------------*/
+
+
+#include "main_header.hpp"
 #include <stdexcept>
 
 Texture_Manager textures;
