@@ -4,6 +4,20 @@
     * Licensed under the MIT License. See License.txt in the project root for license information.
  ----------------------------------------------------------------------------------------------------*/
 
+
+
+/** 
+    \file
+    \brief The header file which unites any other useful headers.
+
+    * This header contains declarations of all the classes and structures that are used in
+    * the program. 
+
+
+**/
+
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
@@ -13,25 +27,67 @@
 #define _MAIN_HEADER_H 1
 
 
+
+
+/**
+    * \brief This class allows you to use textures in the program.
+    * \version 1.0
+    * \date 2, July, 2020
+    * \warning Many operation have asymptotics O (log n) as it uses a std::map.
+    * 
+    * This class has a enum with possibble names of textures. 
+    * It also has a std::map which contains pairs ID-number - unique_ptr to the texture.
+**/
+
 class Texture_Manager
 {
 
 public:
+    
+    /// Possible names-identificators of pictures.
+    
     enum ID {
                 logo, castle, map,
                 grass, forest_1,
-                texture_number
+                texture_number          ///< Number of different texture names
             };
 
 private:
+
+    /** 
+        * \details Texture_Map is a std::map object. It is used to find the necessary texture quite easily.
+        * Its key is an enum ID object, its value is a unique pointer to the texture.
+        * A unique pointer is used to manage carefully with "heavy" objects - textures.
+    **/
 
     std::map <Texture_Manager::ID, std::unique_ptr <sf::Texture> > Texture_Map; 
 
 public:
 
+    /**
+        * Loads an image, so it can be used further in the program.
+        \param [in] id The identifying number of the image. Should be in enum ID.
+        \param [in] file_name The name and the path to the image.
+        \throw std::runtime_error If there is no file with such name in the folder.
+    **/
+
     void load (Texture_Manager::ID id, const char* file_name);
+
+
+    /**
+        * Gets a reference to the texture with this ID.
+        * \param [in] id The identifying number of the image. Should be in enum ID.
+        * \return reference to the texture.
+    **/
+
     sf::Texture& get_texture (Texture_Manager::ID id) const noexcept;
 };
+
+
+    /** 
+         * This is an object of class Texture_Manager which contains all
+         *  the necessary textures for the program.
+    **/
 
 extern Texture_Manager textures;
 
@@ -169,4 +225,4 @@ public:
 
 
 
-#endif
+#endif                      // _MAIN_HEADER_H
