@@ -1,9 +1,8 @@
+
+// Copyright © 2020 Dragun Konstantin. All rights reserved.
+
 #include "main_header.hpp"
 
-/**
- * This is a map editor for the game "Dimicandum".
- * Here you can create your own maps.
- **/ 
 
 int main()
 {

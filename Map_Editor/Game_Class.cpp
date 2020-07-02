@@ -1,3 +1,6 @@
+
+// Copyright © 2020 Dragun Konstantin. All rights reserved.
+
 #include "main_header.hpp"
 #include <cmath>
 

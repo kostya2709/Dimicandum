@@ -1,7 +1,7 @@
 
+// Copyright © 2020 Dragun Konstantin. All rights reserved.
+
 #include "main_header.hpp"
-
-
 
 
 void Abstract_Field::set_transparent (bool transparent) noexcept

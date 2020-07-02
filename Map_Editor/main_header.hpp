@@ -1,3 +1,6 @@
+
+// Copyright © 2020 Dragun Konstantin. All rights reserved.
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
