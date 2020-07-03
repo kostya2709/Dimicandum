@@ -1,0 +1,87 @@
+\section{Game Class Reference}
+\label{class_game}\index{Game@{Game}}
+
+
+Collaboration diagram for Game\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=216pt]{class_game__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\label{class_game_a5bc07cf8947858f32637943836cc6f8e}} 
+{\bfseries Game} (int width, int height)
+\item 
+\mbox{\label{class_game_a1e5138ddc86047f2cb1171758a583df1}} 
+void {\bfseries construct} (void) noexcept
+\item 
+\mbox{\label{class_game_a46165f87463fa8114fa44596ced90dbd}} 
+void {\bfseries run} (void)
+\item 
+\mbox{\label{class_game_aee38b1aa52dba2855f2457d22b3df13f}} 
+void {\bfseries render} (void)
+\item 
+\mbox{\label{class_game_a36bf09723c976fe477bc774cc1d03b3f}} 
+void {\bfseries update} (void)
+\item 
+\mbox{\label{class_game_a16c9b0feaf6b088bdcd591c731e68981}} 
+void {\bfseries load\+\_\+map} (void)
+\item 
+\mbox{\label{class_game_a8bf297e096e1818ee04490704dd2aa47}} 
+void {\bfseries handle\+\_\+\+Events} (void)
+\item 
+\mbox{\label{class_game_a33ba12022b4e9211e47231a2cb7420a8}} 
+void {\bfseries load\+\_\+textures} (void)
+\item 
+\mbox{\label{class_game_a8ee964a0e77476e2755be37868c67db6}} 
+void {\bfseries preprocessing} (void)
+\item 
+\mbox{\label{class_game_ab557af9fcbd7bf45c3bd98ba6014b79b}} 
+void {\bfseries make\+\_\+default\+\_\+map} (void) noexcept
+\item 
+\mbox{\label{class_game_a6a0260cb97b25515e10b7fd2239780cc}} 
+void {\bfseries handle\+\_\+zoom} (float delta) noexcept
+\item 
+\mbox{\label{class_game_ae37df91bc39bf902d49477d2023601a7}} 
+void {\bfseries handle\+\_\+scrolling} (float x, float y) noexcept
+\item 
+\mbox{\label{class_game_aa98202aec960f630979076cfdd1754a8}} 
+sf\+::\+Vector2i {\bfseries calculate\+\_\+coordinates} (void) const noexcept
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\label{class_game_a7f7bcbfabe1f934a35b4b2ebb07ab081}} 
+\textbf{ Map\+\_\+\+Net} {\bfseries texture\+\_\+map}
+\item 
+\mbox{\label{class_game_a793d916f26e5b18585a924f0b04d3d29}} 
+sf\+::\+Vector2i {\bfseries offset}
+\item 
+\mbox{\label{class_game_a8692b6957cee6766cb8dea1120e26b52}} 
+sf\+::\+Vector2i {\bfseries scale\+\_\+offset}
+\item 
+\mbox{\label{class_game_aabe9e45119ae00b3b11cff84e10d15ae}} 
+double {\bfseries scale} = 1
+\item 
+\mbox{\label{class_game_a223de215aeb661cd423ac145756cc730}} 
+sf\+::\+Render\+Window {\bfseries window}
+\item 
+\mbox{\label{class_game_ac136054a272ae71ed3697acc58ee13a0}} 
+sf\+::\+Vector2f {\bfseries window\+\_\+size}
+\item 
+\mbox{\label{class_game_a72739bdd7a7159a83394be25d7e116d6}} 
+sf\+::\+View {\bfseries view}
+\item 
+\mbox{\label{class_game_afaa30a69a82e00c28792bb472b8dd8d9}} 
+\textbf{ Manager} {\bfseries manager}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\textbf{ main\+\_\+header.\+hpp}\item 
+Game\+\_\+\+Class.\+cpp\end{DoxyCompactItemize}

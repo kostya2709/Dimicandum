@@ -1,0 +1,130 @@
+\section{Texture\+\_\+\+Manager Class Reference}
+\label{class_texture___manager}\index{Texture\+\_\+\+Manager@{Texture\+\_\+\+Manager}}
+
+
+This class allows you to use textures in the program.  
+
+
+
+
+{\ttfamily \#include $<$main\+\_\+header.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ ID} \{ \newline
+{\bfseries logo}, 
+{\bfseries castle}, 
+{\bfseries map}, 
+{\bfseries grass}, 
+\newline
+{\bfseries forest\+\_\+1}, 
+\textbf{ texture\+\_\+number}
+ \}\begin{DoxyCompactList}\small\item\em Possible names-\/identificators of pictures. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ load} (\textbf{ Texture\+\_\+\+Manager\+::\+ID} id, const char $\ast$file\+\_\+name)
+\item 
+sf\+::\+Texture \& \textbf{ get\+\_\+texture} (\textbf{ Texture\+\_\+\+Manager\+::\+ID} id) const noexcept
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class allows you to use textures in the program. 
+
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2, July, 2020 
+\end{DoxyDate}
+\begin{DoxyWarning}{Warning}
+Many operation have asymptotics O (log n) as it uses a std\+::map.
+\end{DoxyWarning}
+This class has a enum with possibble names of textures. It also has a std\+::map which contains pairs I\+D-\/number -\/ unique\+\_\+ptr to the texture. 
+
+\subsection{Member Enumeration Documentation}
+\mbox{\label{class_texture___manager_ad63782cc856b6b2f5f2d5a50446ca589}} 
+\index{Texture\+\_\+\+Manager@{Texture\+\_\+\+Manager}!ID@{ID}}
+\index{ID@{ID}!Texture\+\_\+\+Manager@{Texture\+\_\+\+Manager}}
+\subsubsection{ID}
+{\footnotesize\ttfamily enum \textbf{ Texture\+\_\+\+Manager\+::\+ID}}
+
+
+
+Possible names-\/identificators of pictures. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{texture\+\_\+number@{texture\+\_\+number}!Texture\+\_\+\+Manager@{Texture\+\_\+\+Manager}}\index{Texture\+\_\+\+Manager@{Texture\+\_\+\+Manager}!texture\+\_\+number@{texture\+\_\+number}}}\mbox{\label{class_texture___manager_ad63782cc856b6b2f5f2d5a50446ca589a556b14f5a3303471af929dcb18cf9ca4}} 
+texture\+\_\+number&Number of different texture names. \\
+\hline
+
+\end{DoxyEnumFields}
+
+\begin{DoxyCode}
+49             \{
+50                 logo, castle, map,
+51                 grass, forest\_1,
+52                 texture_number          
+53             \};
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\label{class_texture___manager_a0af52a4c629ad3fab88437c7ff13ef3c}} 
+\index{Texture\+\_\+\+Manager@{Texture\+\_\+\+Manager}!get\+\_\+texture@{get\+\_\+texture}}
+\index{get\+\_\+texture@{get\+\_\+texture}!Texture\+\_\+\+Manager@{Texture\+\_\+\+Manager}}
+\subsubsection{get\+\_\+texture()}
+{\footnotesize\ttfamily sf\+::\+Texture \& Texture\+\_\+\+Manager\+::get\+\_\+texture (\begin{DoxyParamCaption}\item[{\textbf{ Texture\+\_\+\+Manager\+::\+ID}}]{id }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Gets a reference to the texture with this ID. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em id} & The identifying number of the image. Should be in enum ID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to the texture. 
+\end{DoxyReturn}
+
+\begin{DoxyCode}
+15 \{
+16     \textcolor{keywordflow}{return} *(this->Texture\_Map.find (\textcolor{keywordtype}{id})->second);
+17 \}
+\end{DoxyCode}
+\mbox{\label{class_texture___manager_ab307261ce9f9ed3cec6a316d7e8ad40c}} 
+\index{Texture\+\_\+\+Manager@{Texture\+\_\+\+Manager}!load@{load}}
+\index{load@{load}!Texture\+\_\+\+Manager@{Texture\+\_\+\+Manager}}
+\subsubsection{load()}
+{\footnotesize\ttfamily void Texture\+\_\+\+Manager\+::load (\begin{DoxyParamCaption}\item[{\textbf{ Texture\+\_\+\+Manager\+::\+ID}}]{id,  }\item[{const char $\ast$}]{file\+\_\+name }\end{DoxyParamCaption})}
+
+Loads an image, so it can be used further in the program. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em id} & The identifying number of the image. Should be in enum ID. \\
+\hline
+\mbox{\tt in}  & {\em file\+\_\+name} & The name and the path to the image. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & If there is no file with such name in the folder. \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyCode}
+22 \{
+23     std::unique\_ptr <sf::Texture> unique\_texture (\textcolor{keyword}{new} sf::Texture());
+24 
+25     \textcolor{keywordflow}{if} (!unique\_texture->loadFromFile (file\_name))
+26         \textcolor{keywordflow}{throw} std::runtime\_error (\textcolor{stringliteral}{"Failed to load file "} + std::string (file\_name));
+27 
+28     this->Texture\_Map.insert (std::make\_pair (\textcolor{keywordtype}{id}, std::move (unique\_texture)));
+29 \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\textbf{ main\+\_\+header.\+hpp}\item 
+Textures.\+cpp\end{DoxyCompactItemize}

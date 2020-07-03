@@ -10,7 +10,5 @@
 *.out
 *.app
 
-# Doxygen files and folders
-html
-latex
+# Doxygen configuration files
 Doxyfile

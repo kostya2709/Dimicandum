@@ -1,0 +1,55 @@
+\section{Manager Class Reference}
+\label{class_manager}\index{Manager@{Manager}}
+
+
+Inheritance diagram for Manager\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{class_manager__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Manager\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{class_manager__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\label{class_manager_a96cd1ec402e2c7eae1bcfba02e2b98b6}} 
+{\bfseries Manager} (int number) noexcept
+\item 
+\mbox{\label{class_manager_a50645ccfb34fbf2ca5a2cb2d71b6a4cf}} 
+{\bfseries Manager} (float x, float y) noexcept
+\item 
+\mbox{\label{class_manager_afa63bf1660484bb7e0f59e8442463233}} 
+{\bfseries Manager} (float x, float y, \textbf{ Texture\+\_\+\+Manager\+::\+ID} id) noexcept
+\item 
+\mbox{\label{class_manager_a7b8a0c6a669ac52cba99504a55fee9ee}} 
+virtual int {\bfseries handle\+\_\+\+Mouse\+\_\+\+Pressed} (float x, float y) const noexcept override
+\item 
+\mbox{\label{class_manager_a6831593059b3466ef04dbaf49fc86a26}} 
+virtual void {\bfseries render} (sf\+::\+Render\+Window \&window) const noexcept override
+\item 
+\mbox{\label{class_manager_a02ef98b2d31dd2a0dc9904f851683e4b}} 
+void {\bfseries insert} (\textbf{ Abstract\+\_\+\+Field} $\ast$new\+\_\+field) noexcept
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\label{class_manager_a68fec7e7b354db503dd062da7bc03b34}} 
+std\+::vector$<$ \textbf{ Abstract\+\_\+\+Field} $\ast$ $>$ {\bfseries array}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\textbf{ main\+\_\+header.\+hpp}\item 
+Buttons.\+cpp\end{DoxyCompactItemize}
