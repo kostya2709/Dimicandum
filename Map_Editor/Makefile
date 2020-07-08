@@ -1,6 +1,6 @@
 FNAME=map_editor
-CFLAGS= -c -Wall
 LFLAGS= -o
+CFLAGS= -c -Wall
 
 alll: clean auxilary_files all
 all: $(FNAME)

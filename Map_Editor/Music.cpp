@@ -11,7 +11,7 @@
 
 
 
-Music_Manager::Music_Manager (void) : volume (100.f)
+Music_Manager::Music_Manager (void) noexcept : volume (100.f)
 {
     storage [main_theme] = "../Music/Time.ogg";                                             ///< Add a new ID.
     storage [forest]     = "../Music/Forest.ogg";                                           ///< Add a new ID.
@@ -31,12 +31,12 @@ void Music_Manager::play (const Music_Manager::ID music_ID)
     music.play();                                                                           ///< Make the music play.
 }
 
-void Music_Manager::stop (void)
+void Music_Manager::stop (void) noexcept
 {
     music.stop();                                                                           ///< Stop the music.
 }
 
-void Music_Manager::set_paused (bool state)
+void Music_Manager::set_paused (bool state) noexcept
 {
     if (state)                                                                              ///< If state is true,
         music.pause();                                                                      ///< stop the music.

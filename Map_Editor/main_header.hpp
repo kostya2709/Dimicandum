@@ -115,7 +115,7 @@ public:
     };
 
 /// The class constructor. It connects ID and file names.
-    Music_Manager (void);
+    Music_Manager (void) noexcept;
 
 
 /**
@@ -131,7 +131,7 @@ public:
 /**
  * \brief Stops the music file if it was playing. Otherwise does nothing.
  **/
-    void stop (void);
+    void stop (void) noexcept;
 
 
 /**
@@ -139,7 +139,7 @@ public:
  * 
  * \param [in] state New state of the music track. true for play, false for pause.
 **/
-    void set_paused (bool state);
+    void set_paused (bool state) noexcept;
 
 private:
 
@@ -172,7 +172,7 @@ public:
     void set_transparent (bool transparent) noexcept;
     bool get_transparent (void) const noexcept;
 
-    virtual int handle_Mouse_Pressed (float x, float y) const noexcept {return 0;};
+    virtual int handle_Mouse_Pressed (float x, float y) const noexcept;
     virtual bool is_on_Mouse (float x, float y) const noexcept;
     virtual void render (sf::RenderWindow& window) const noexcept;
 };

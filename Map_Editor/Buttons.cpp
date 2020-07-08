@@ -39,7 +39,11 @@ void Abstract_Field::render (sf::RenderWindow& window) const noexcept
         window.draw (*this);
 }
 
-
+int Abstract_Field::handle_Mouse_Pressed (float x, float y) const noexcept
+{
+    printf ("Coordintes %g, %g are inside of the field\n", x, y);
+    return 0;
+}
 
 
 
