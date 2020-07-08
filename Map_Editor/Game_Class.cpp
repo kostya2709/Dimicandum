@@ -8,7 +8,6 @@
 #include <cmath>
 
 
-
 void Game::construct (void) noexcept
 {
     manager = *(new Manager ());
@@ -65,6 +64,7 @@ void Game::load_textures (void)
     textures.load (Texture_Manager::grass, "../Textures/Forest/grass.png");
     textures.load (Texture_Manager::forest_1, "../Textures/Forest/forest_1.png");
 }
+
 
 void Game::load_map (void)
 {
@@ -129,8 +129,6 @@ void Game::handle_Events (void)
 sf::Vector2i Game::calculate_coordinates (void) const noexcept
 {
     sf::Vector2i mouse = sf::Mouse::getPosition (window);
-    printf ("scale %g, real (%g, %g), +offset (%g, %g), *scale (%g, %g)\n", scale,
-    mouse.x, mouse.y, mouse.x + offset.x, mouse.y + offset.y, scale * mouse.x + offset.x, scale * mouse.y + offset.y);
 
     mouse.x = round (scale * mouse.x + offset.x);
     mouse.y = round (scale * mouse.y + offset.y);
@@ -140,18 +138,18 @@ sf::Vector2i Game::calculate_coordinates (void) const noexcept
 
 void Game::handle_scrolling (float x, float y) noexcept
 {
-    sf::Vector2i offset (0, 0);
+    sf::Vector2f offset (0, 0);
     const int frame = 50;
     const int move  = 1;
 
     //printf ("x %g, y %g\n", x, y);
 
     if (x <= frame && this->offset.x > 0) 
-        offset.x = -move;
+        offset.x = - move;
     if (x >= window.getSize().x - frame)
         offset.x = move;
     if (y <= frame  && this->offset.y > 0) 
-        offset.y = -move;
+        offset.y = - move;
     if (y >= window.getSize().y - frame)
         offset.y = move;
      
@@ -159,41 +157,52 @@ void Game::handle_scrolling (float x, float y) noexcept
     this->offset += offset;
 }
 
+
 void Game::handle_zoom (float delta) noexcept
 {
-    constexpr float min_scale = 0.05;
-    constexpr float max_scale = 2;
-    constexpr float grade = 0.1;
+    constexpr float min_scale = 0.05;                                               ///< The minimal scale of the map.
+    constexpr float max_scale = 2;                                                  ///< The maximal scale of the map.
+    constexpr float grade = 0.1;                                                    ///< The "step", shows how fast the map is scaled.
 
-    if ((scale <= min_scale && delta < 0) || (scale >= max_scale && delta > 0))
-        return;
+    if ((scale <= min_scale && delta < 0) || (scale >= max_scale && delta > 0))     ///< If the scale is at the limit,
+        return;                                                                     ///< do not do anything.
 
-    double result = grade * abs (delta);
-    double final_result = 1 + result;
-    double is_bigger = 1; 
-
-
+    double zoom_delta = grade * abs (delta);                                        ///< Shows at what value we zoom the map according to the grade and the delta.
+    double final_zoom_delta = 1 + zoom_delta;                                       ///< The value to multiply the high and the width of the screen.
+    double is_bigger = 1;                                                           ///< The flag that shows whether the picture becomes "bigger".
 
 
-    if (delta < 0)
+    if (delta < 0)                                                                  ///< Handle the case when the picture becomes "smaller"
     {    
-        final_result = 1 / final_result;
-        result *= final_result;
-        is_bigger = -1;
+        final_zoom_delta = 1 / final_zoom_delta;                                    ///< The value to multiply the screen is reversed.
+        zoom_delta *= final_zoom_delta;                                             ///< Update the zoom delta.
+        is_bigger = -1;                                                             ///< The flag shows that picture becomes "smaller".
     }
 
-    double offset_x = is_bigger * window_size.x * result / 2;
-    double offset_y = is_bigger * window_size.y * result / 2;
+    double offset_x = is_bigger * window_size.x * zoom_delta / 2;                   ///< New offsets which are caused by zooming.
+    double offset_y = is_bigger * window_size.y * zoom_delta / 2;                   ///< They are equal to the half of the difference between 
+                                                                                    ///< the old size and the new one.                                                 
+    offset -= sf::Vector2f (offset_x, offset_y);                                    ///< Update the general offset.
 
-    //offset -= sf::Vector2i (offset_x, offset_y);
+    scale *= final_zoom_delta;                                                      ///< Update the general scale.
+    
+    window_size.x *= final_zoom_delta;                                              ///< Update the variable that reflect the window width.
+    window_size.y *= final_zoom_delta;                                              ///< Update the variable that reflect the window height.
+    view.zoom (final_zoom_delta);                                                   ///< Zoom the map.
+    
+    if (delta > 0)                                                                  ///< Handle the case when the picture becomes "bigger".
+    {
+        sf::Vector2f temp_offset = {};                                              ///< Make a temporary variable for offset.
+        
+        if (offset.x < 0)                                                           ///< If the field is out of the frame while scaling,
+            temp_offset.x = - offset.x;                                             ///< make the offset equal to the current offset, but positive.
 
-    scale *= final_result;
-    
-    window_size.x *= final_result;
-    window_size.y *= final_result;
-    view.zoom (final_result);
-    
-    view.move (offset_x, offset_y);
+        if (offset.y < 0)                                                           ///< If the field is out of the frame while scaling,
+            temp_offset.y = - offset.y;                                             ///< make the offset equal to the current offset, but positive.
+
+        view.move (temp_offset);                                                    ///< Move the camera to the right place.
+        offset += temp_offset;                                                      ///< Update the general offset.
+    }
 }
 
 void Game::run (void)

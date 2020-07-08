@@ -23,8 +23,8 @@
 #include <SFML/Graphics.hpp>
 
 
-#ifndef _MAIN_HEADER_H
-#define _MAIN_HEADER_H 1
+#if !defined( _MAIN_HEADER_H)
+#define _MAIN_HEADER_H
 
 
 
@@ -199,7 +199,7 @@ public:
 
     Map_Net texture_map;
 
-    sf::Vector2i offset;
+    sf::Vector2f offset;
     sf::Vector2i scale_offset;
     double scale = 1;
 
@@ -217,7 +217,19 @@ public:
     void load_textures (void);
     void preprocessing (void);
     void make_default_map (void) noexcept;
+
+    /**
+     * Handles the map zooming, caused by a mouse wheel or a touchpad.
+     * 
+     * \param [in] delta The change of mouse state. As rool is equal to 1 or -1,
+     * although some accurate mice may have a float value.
+     * 
+    **/
+
     void handle_zoom (float delta) noexcept;
+
+
+
     void handle_scrolling (float x, float y) noexcept;
     sf::Vector2i calculate_coordinates (void) const noexcept;
 

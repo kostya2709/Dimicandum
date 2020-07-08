@@ -7,10 +7,8 @@
 #include "main_header.hpp"
 
 
-
 int main()
 {
-   
     Game game;
     game.run();
 
