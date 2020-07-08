@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 
 #if !defined( _MAIN_HEADER_H)
@@ -45,7 +46,6 @@ class Texture_Manager
 public:
     
     /// Possible names-identificators of pictures.
-    
     enum ID {
                 logo, castle, map,
                 grass, forest_1,
@@ -59,39 +59,95 @@ private:
         * Its key is an enum ID object, its value is a unique pointer to the texture.
         * A unique pointer is used to manage carefully with "heavy" objects - textures.
     **/
-
     std::map <Texture_Manager::ID, std::unique_ptr <sf::Texture> > Texture_Map; 
 
 public:
 
     /**
         * Loads an image, so it can be used further in the program.
+        * 
         \param [in] id The identifying number of the image. Should be in enum ID.
         \param [in] file_name The name and the path to the image.
         \throw std::runtime_error If there is no file with such name in the folder.
     **/
-
     void load (Texture_Manager::ID id, const char* file_name);
 
 
     /**
         * Gets a reference to the texture with this ID.
+        * 
         * \param [in] id The identifying number of the image. Should be in enum ID.
         * \return reference to the texture.
     **/
-
     sf::Texture& get_texture (Texture_Manager::ID id) const noexcept;
 };
 
 
-    /** 
-         * This is an object of class Texture_Manager which contains all
-         *  the necessary textures for the program.
-    **/
-
+/** 
+     * This is an object of class Texture_Manager which contains all
+     *  the necessary textures for the program.
+**/
 extern Texture_Manager textures;
 
 
+
+
+/**
+ * \brief This class allows to manage music files:
+ * play, pause, and stop them.
+ * 
+ * \warning Supported by SFML formates are: OGG, WAV, and AIFF. 
+ * 
+ * This class manages only background themes. Sounds are not supported by this class.
+ * Music files are not loaded to the program memory. They are opened and played right from 
+ * the place, written in the file path.
+**/
+class Music_Manager
+{
+
+public:
+
+/// Possible name identificators of music files.
+    enum ID
+    {
+        main_theme,
+        forest
+    };
+
+/// The class constructor. It connects ID and file names.
+    Music_Manager (void);
+
+
+/**
+ * \brief Plays the music file.
+ * \param [in] music_ID Identificator of a music file.
+ * 
+ * \throw If it is not possible to play a music file with
+ * such an ID, a std::runtime_error exception is thrown.
+ **/
+    void play (const Music_Manager::ID music_ID);
+
+
+/**
+ * \brief Stops the music file if it was playing. Otherwise does nothing.
+ **/
+    void stop (void);
+
+
+/**
+ * \brief Change the state of a music track.
+ * 
+ * \param [in] state New state of the music track. true for play, false for pause.
+**/
+    void set_paused (bool state);
+
+private:
+
+    std::map <ID, std::string> storage;             ///< The map to connect ID with music file names.
+    sf::Music music;                                ///< The object of SFML class, that allows to manage music.
+    float volume;                                   ///< Volume of a playing music track.
+
+};
 
 
 
@@ -206,7 +262,9 @@ public:
     sf::RenderWindow window;
     sf::Vector2f window_size;
     sf::View view;
+
     Manager manager;
+    Music_Manager music;
 
 
     void run (void);

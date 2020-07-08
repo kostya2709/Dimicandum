@@ -6,7 +6,6 @@
 
 #include "main_header.hpp"
 
-
 int main()
 {
     Game game;
@@ -17,7 +16,6 @@ int main()
 
     //Button_Overflow btn4 (400, 400, 200, 200, sf::Color::Magenta);
     game.manager.array.push_back (&test);
-
 
     return 0;
 }

@@ -14,6 +14,8 @@ void Game::construct (void) noexcept
     view.reset (sf::FloatRect (0, 0, window.getSize().x, window.getSize().y)); 
     window_size.x = window.getSize().x;
     window_size.y = window.getSize().y;
+
+    music.play (Music_Manager::ID::forest);
 }
 
 Game::Game (void) : window (sf::VideoMode::getFullscreenModes()[0], "Map Editor")
@@ -82,6 +84,8 @@ void Game::preprocessing (void)
 {
     load_textures();
     make_default_map();
+    Music_Manager music;
+    music.play (Music_Manager::ID::main_theme);
 }
 
 void Game::render (void)
