@@ -48,8 +48,9 @@ public:
     /// Possible names-identificators of pictures.
     enum ID {
                 logo, castle, map,
-                grass, forest_1,
-                texture_number          ///< Number of different texture names
+                grass, forest_1, forest_2, forest_3,
+                sea, sand,
+                texture_number                                  ///< Number of different texture names
             };
 
 private:
@@ -89,7 +90,7 @@ public:
 **/
 extern Texture_Manager textures;
 
-
+extern Texture_Manager::ID current_style;
 
 
 /**
@@ -186,11 +187,18 @@ class Manager : public Abstract_Field
 {
 public:
 
+    enum layer
+    {
+        lower_layer,
+        middle_layer,
+        upper_layer,
+        count_layer
+    };
+
     Manager (void) noexcept
     : Abstract_Field () {}
 
-    Manager (int number) noexcept
-    : Abstract_Field () {array.reserve (number);}
+    Manager (int number) noexcept;
 
     Manager (float x, float y) noexcept
     : Abstract_Field (x, y) {}
@@ -198,12 +206,12 @@ public:
     Manager (float x, float y, Texture_Manager::ID id) noexcept
     : Abstract_Field (x, y, id) {}
 
-    std::vector <Abstract_Field*> array;
+    std::vector <Abstract_Field*> array [count_layer];
 
     virtual int handle_Mouse_Pressed (float x, float y) const noexcept override;
     //virtual bool is_on_Mouse (float x, float y) override;
     virtual void render (sf::RenderWindow& window) const noexcept override;
-    void insert (Abstract_Field* new_field) noexcept;
+    void insert (Abstract_Field* new_field, Manager::layer layer) noexcept;
 
     ~Manager () {}
 };
@@ -263,6 +271,10 @@ public:
     sf::Vector2f window_size;
     sf::View view;
 
+    // My window size: 1837 * 1018;
+
+    Abstract_Field background;
+
     Manager manager;
     Music_Manager music;
 
@@ -286,7 +298,7 @@ public:
 
     void handle_zoom (float delta) noexcept;
 
-
+    void handle_key (sf::Event& event) noexcept;
 
     void handle_scrolling (float x, float y) noexcept;
     sf::Vector2i calculate_coordinates (void) const noexcept;

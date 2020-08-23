@@ -11,11 +11,22 @@
 void Game::construct (void) noexcept
 {
     manager = *(new Manager ());
-    view.reset (sf::FloatRect (0, 0, window.getSize().x, window.getSize().y)); 
     window_size.x = window.getSize().x;
     window_size.y = window.getSize().y;
+    //view.setViewport (sf::FloatRect (0.2, 0.2, 0.75, 0.75));
+    view.reset (sf::FloatRect (0, 0, window_size.x, window_size.y));
 
-    music.play (Music_Manager::ID::forest);
+    background.setScale (window_size);
+    //background.set_texture (Texture_Manager::ID::forest_1);
+
+    try 
+    {
+        music.play (Music_Manager::ID::forest);
+    }
+    catch (std::runtime_error& error)
+    {
+        printf ("Attention! %s\n\n", error.what());
+    }
 }
 
 Game::Game (void) : window (sf::VideoMode::getFullscreenModes()[0], "Map Editor")
@@ -32,7 +43,7 @@ Game::Game (int width, int height) : window (sf::VideoMode (width, height), "Map
 void Game::make_default_map (void) noexcept
 {
 
-    manager.insert (&texture_map);
+    manager.insert (&texture_map, Manager::middle_layer);
 
     size_t cur_x  = texture_map.left_edge;
     size_t cur_y  = texture_map.upper_edge;
@@ -60,14 +71,25 @@ void Game::update (void)
 
 void Game::load_textures (void)
 {
-    textures.load (Texture_Manager::logo, "Objects/Pictures/logo.png");
-    textures.load (Texture_Manager::castle, "Objects/Pictures/Castles/cas1.png");
-    textures.load (Texture_Manager::map, "Objects/Pictures/Maps/map1.png");
-    textures.load (Texture_Manager::grass, "../Textures/Forest/grass.png");
-    textures.load (Texture_Manager::forest_1, "../Textures/Forest/forest_1.png");
+    try
+    {
+        textures.load (Texture_Manager::logo, "Objects/Pictures/logo.png");
+        textures.load (Texture_Manager::castle, "Objects/Pictures/Castles/cas1.png");
+        textures.load (Texture_Manager::map, "Objects/Pictures/Maps/map1.png");
+        textures.load (Texture_Manager::grass, "../Textures/Forest/grass.png");
+        textures.load (Texture_Manager::forest_1, "../Textures/Forest/forest_1.png");
+        textures.load (Texture_Manager::forest_2, "../Textures/Forest/forest_2.png");
+        textures.load (Texture_Manager::forest_3, "../Textures/Forest/forest_3.png");
+        textures.load (Texture_Manager::sea, "../Textures/Sea/sea.png");
+        textures.load (Texture_Manager::sand, "../Textures/Sea/sand.png");
+    }
+    catch (std::runtime_error error)
+    {
+        printf ("Attention!!!\n%s.\nCheck whether the file is in the folder!\n\n\n", error.what());
+    }
 }
 
-
+/*
 void Game::load_map (void)
 {
     Manager* game_map = new Manager (0, 0, Texture_Manager::map);
@@ -79,6 +101,9 @@ void Game::load_map (void)
     manager.insert (game_map);
 
 }
+*/
+
+
 
 void Game::preprocessing (void)
 {
@@ -92,11 +117,15 @@ void Game::render (void)
 {
     window.setView (view);
     this->window.clear (sf::Color (255, 255, 255, 255));
-    
+
+    window.draw (background);
+
     this->manager.render (this->window);
     
     this->window.display();
 }
+    
+static bool mouse_pressed = false;
 
 void Game::handle_Events (void)
 {
@@ -105,15 +134,28 @@ void Game::handle_Events (void)
     {
         switch (event.type)
         {
+            case sf::Event::MouseMoved:
+                if (!mouse_pressed)
+                    break;
+
             case sf::Event::MouseButtonPressed:
             {
+                mouse_pressed = true;
                 sf::Vector2i real_mouse = calculate_coordinates();
                 this->manager.handle_Mouse_Pressed (real_mouse.x, real_mouse.y);
             }
             break;
 
+            case sf::Event::MouseButtonReleased:
+                mouse_pressed = false;
+            break;
+
             case sf::Event::MouseWheelScrolled:
                 handle_zoom (event.mouseWheelScroll.delta);
+            break;
+
+            case sf::Event::KeyPressed:
+                handle_key (event);
             break;
             
             case sf::Event::Closed:
@@ -219,5 +261,38 @@ void Game::run (void)
         this->handle_Events();
         this->update();
         this->render();
+    }
+}
+
+void Game::handle_key (sf::Event& event) noexcept
+{
+    switch (event.key.code)
+    {
+        case sf::Keyboard::Num1:
+            current_style = Texture_Manager::ID::grass;
+        break;
+
+        case sf::Keyboard::Num2:
+            current_style = Texture_Manager::ID::forest_1;
+        break;
+
+        case sf::Keyboard::Num3:
+            current_style = Texture_Manager::ID::forest_2;
+        break;
+
+        case sf::Keyboard::Num4:
+            current_style = Texture_Manager::ID::forest_3;
+        break;
+
+        case sf::Keyboard::Num5:
+            current_style = Texture_Manager::ID::sea;
+        break;
+
+        case sf::Keyboard::Num6:
+            current_style = Texture_Manager::ID::sand;
+        break;
+
+        default:
+        break;
     }
 }

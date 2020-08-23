@@ -6,6 +6,7 @@
 
 #include "main_header.hpp"
 
+Texture_Manager::ID current_style = Texture_Manager::ID::forest_1;
 
 void Abstract_Field::set_transparent (bool transparent) noexcept
 {
@@ -49,41 +50,54 @@ int Abstract_Field::handle_Mouse_Pressed (float x, float y) const noexcept
 
 
 
-
-
-void Manager::insert (Abstract_Field* new_field) noexcept
+Manager::Manager (int number) noexcept : Abstract_Field () 
 {
-    this->array.push_back (new_field);
+    for (int i = 0; i < count_layer; ++i)
+        array [i].reserve (number);
+}
+
+void Manager::insert (Abstract_Field* new_field, Manager::layer layer) noexcept
+{
+    this->array [layer].push_back (new_field);
 }
 
 int Manager::handle_Mouse_Pressed (float x, float y) const noexcept
 {
-    int num = this->array.size();
-    int found = 0;
+    int found_layer = -1;
 
-    for (int i = 0; i < num; ++i)
-        if (this->array[i]->is_on_Mouse (x, y))
-        {
-            this->array[i]->handle_Mouse_Pressed (x, y);
-            ++found;
-        }
+    for (int layer = count_layer - 1; layer >= 0; --layer)
+    {
+        int num = this->array [layer].size();
+
+        for (int i = 0; i < num; ++i)
+            if (this->array [layer][i]->is_on_Mouse (x, y))
+            {
+                this->array [layer][i]->handle_Mouse_Pressed (x, y);
+                found_layer = layer;
+                break;
+            }
+        if (found_layer != -1)
+            break;
+    }
     
-    //if (found == 0)
+    //if (found == -1)
         //printf ("YOU MISSED!\n\n");
 
-    return found;
+    return found_layer;
 }
 
 void Manager::render (sf::RenderWindow& window) const noexcept
 {
-    int size = this->array.size();
-    int counter = 0;
-
     if (!this->get_transparent())
-        window.draw (*this);
+            window.draw (*this);
     
-    for (; counter < size; ++counter)
-        this->array[counter]->render(window);
+    for (int layer = 0; layer < count_layer; ++layer)
+    {
+        int size = this->array [layer].size();
+        
+        for (int counter = 0; counter < size; ++counter)
+            this->array [layer][counter]->render(window);
+    }
 }
 
 
@@ -122,7 +136,7 @@ void Map_Net::render (sf::RenderWindow& window) const noexcept
 {
     for (size_t i = 0; i < height; ++i)
         for (size_t j = 0; j < width; ++j)
-            map_net[i][j].render(window);
+            map_net[i][j].render (window);
 }
 
 bool Map_Net::is_on_Mouse (float x, float y) const noexcept
@@ -139,7 +153,7 @@ int Map_Net::handle_Mouse_Pressed (float x, float y) const noexcept
     size_t texture_x = ((size_t)x - left_edge)  / texture_size;
     size_t texture_y = ((size_t)y - upper_edge) / texture_size;
 
-    map_net[texture_y][texture_x].set_texture (Texture_Manager::ID::forest_1);
+    map_net[texture_y][texture_x].set_texture (current_style);
 
     return 0;
 }

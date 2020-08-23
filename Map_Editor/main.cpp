@@ -15,7 +15,7 @@ int main()
    //test.setTexture (textures.get_texture (Texture_Manager::logo));
 
     //Button_Overflow btn4 (400, 400, 200, 200, sf::Color::Magenta);
-    game.manager.array.push_back (&test);
+    //game.manager.array.push_back (&test);
 
     return 0;
 }
